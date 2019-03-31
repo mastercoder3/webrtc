@@ -1,0 +1,31 @@
+<div class="main-menu menu-fixed menu-shadow menu-dark menu-accordion" data-scroll-to-active="true" id="sidebar">
+  <div class="main-menu-content">
+      <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+          <li class=" navigation-header"><span>Admin</span><i class="ft-minus" ></i>
+          </li>
+          <li class="nav-item"><a routerLink="/dashboard/home"><i class="ft-home"></i><span class="menu-title" >Dashboard</span>
+          </a>
+          </li>
+          <!-- <li class="nav-item"><a><i class="ft-user"></i><span class="menu-title">Users</span></a>
+              <ul class="menu-content">
+                  <li><a class="menu-item"></a>
+                      <ul class="menu-content">
+                          <li><a class="menu-item" (click)="addUser()">Add User</a>
+                          </li>
+                          <li><a class="menu-item" (click)="modifyUser()">Modify User</a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li> -->
+          <li class="nav-item"><a (click)="send(pushNotification)"><i class="ft-bell"></i><span class="menu-title">Notifications</span></a>
+          </li>
+          <li class="nav-item"><a routerLink="/dashboard/songs" ><i class="ft-music" ></i><span class="menu-title">Songs</span></a>
+          </li>
+          <li class="nav-item"><a routerLink="/dashboard/ads"><i class="ft-settings"></i><span class="menu-title">Ads</span></a>
+          </li>
+          <li class="nav-item"><a routerLink="/dashboard/payment-settings"><i class="ft-settings"></i><span class="menu-title">Payments setting</span></a>
+          </li>
+      </ul>
+  </div>
+</div>

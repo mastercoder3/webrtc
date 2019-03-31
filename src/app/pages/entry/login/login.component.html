@@ -1,0 +1,62 @@
+<main class="vertical-layout vertical-menu 1-column  bg-full-screen-image menu-expanded blank-page blank-page" data-open="click" data-menu="vertical-menu" data-col="1-column">
+  <div class="app-content content">
+      <div class="content-wrapper">
+          <div class="content-header row">
+          </div>
+          <div class="content-body">
+              <section class="flexbox-container">
+                  <div class="col-12 d-flex align-items-center justify-content-center">
+                      <div class="col-md-4 col-10 box-shadow-2 p-0">
+                          <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
+                              <div class="card-header border-0">
+                                  <div class="card-title text-center">
+                                      <!-- <img src="./../../assets/app-assets/images/logo/stack-logo-dark.png" alt="branding logo"> -->
+                                      <h2>App</h2><br>
+                                      <h5>Admin Panel</h5>
+                                  </div>
+                                  
+                              </div>
+                              <div class="card-content">
+                                  <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>Login</span></p>
+                                  <div class="card-body">
+                                      <form class="form-horizontal" [formGroup]="form">
+                                      <fieldset *ngIf="error">
+                                              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                  {{errMsg}}
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                  </div>
+                                          </fieldset>
+                                          <fieldset class="form-group position-relative has-icon-left">
+                                              <input type="email" class="form-control" placeholder="Your Email" formControlName="email"  #email [ngClass]="{'emaill': f.email.errors}">
+                                              <small style="color: red" *ngIf="f.email.errors && email.value !== '' ">Invalid Email</small>
+                                              <div class="form-control-position">
+                                                  <i class="ft-user"></i>
+                                              </div>
+                                          </fieldset>
+                                          <fieldset class="form-group position-relative has-icon-left">
+                                              <input type="password" class="form-control" formControlName="password" placeholder="Enter Password" #password [ngClass]="{'passwordd': f.password.errors}" >
+                                              <div class="form-control-position">
+                                                  <i class="fa fa-key"></i>
+                                              </div>
+                                          </fieldset>
+                                          <div class="form-group row">
+                                              <div class="col-md-6 col-12 text-center text-sm-left">
+                                              </div>
+                                              <div class="col-md-6 col-12 float-sm-left text-center text-sm-right"><a routerLink="/recover-password" class="card-link">Forgot Password?</a></div>
+                                          </div>
+                                          <button type="submit" class="btn btn-outline-primary btn-block" (click)="onSubmit(email.value, password.value)" [disabled]="form.pristine || form.invalid"><i class="ft-unlock"></i> Login</button>
+                                      </form>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </section>
+
+          </div>
+      </div>
+  </div>
+
+  </main>
