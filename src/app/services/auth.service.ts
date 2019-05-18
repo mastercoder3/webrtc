@@ -30,5 +30,9 @@ export class AuthService {
     return this.auth.auth.sendPasswordResetEmail(email);
   }
 
+  logout(){
+    this.auth.auth.signOut();
+  }
+
 
 }

@@ -35,7 +35,7 @@
                       <fieldset>
                         <label for="enter">Add User:</label>
                         <button style="margin-top: 5px;" class="btn btn-primary btn-block"
-                          (click)="addPizza(addpizzas)">Add</button>
+                          (click)="addUser(userModal)">Add</button>
                       </fieldset>
                     </div>
                   </div>
@@ -77,3 +77,66 @@
     </div>
   </section>
 </div>
+
+
+<ng-template #userModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add a User</h4>
+      <button type="button" class="close" aria-label="Close" style="outline: none;"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card-body">
+  
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+            <fieldset>
+              <label for="title">
+                <!-- Title -->
+                Email:
+              </label>
+              <input type="email" id="title" autocomplete="off" [(ngModel)]="data.email" class="form-control" placeholder="Email">
+            </fieldset>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+            <fieldset>
+              <label for="ingredients">
+                <!-- Ingredients: -->
+                Password:<small>(least 6 characters long)</small>
+              </label>
+              <input type="password" id="title" autocomplete="off" [(ngModel)]="data.password" class="form-control" placeholder="Password">
+            </fieldset>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                <fieldset>
+                  <label for="title">
+                    <!-- Title -->
+                    Address:<small>(Name of Office)</small>
+                  </label>
+                  <input type="text" id="title" [(ngModel)]="data.address" class="form-control" placeholder="Address">
+                </fieldset>
+              </div>
+        </div>
+        <ngx-ui-loader></ngx-ui-loader>
+        <br>
+        <div class="row">
+          <button type="button" class="btn btn-secondary btn-min-width ml-2 mb-1" (click)="Submit()">
+            <!-- Update -->
+            Add User
+          </button>
+        </div>
+  
+  
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+        <!-- close -->
+        Close
+      </button>
+    </div>
+  </ng-template>

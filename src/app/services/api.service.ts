@@ -16,4 +16,16 @@ export class ApiService {
   getAllUsers(){
     return this.afs.collection('users', ref => ref.where('type','==','user')).snapshotChanges();
   }
+
+  createUser(id,data){
+    return this.afs.doc('users/'+id).set(data);
+  }
+
+  deleteUser(id){
+    return this.afs.doc('users/'+id).delete();
+  }
+
+  updateUser(id,data){
+    return this.afs.doc('users/'+id).update(data);
+  }
 }

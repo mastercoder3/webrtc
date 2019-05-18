@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 //packages
 import { FilterPipeModule } from 'ngx-filter-pipe';
@@ -69,6 +70,7 @@ const routes = [
     NgbModalModule,
     NgbModule,
     NgxUiLoaderModule,
+    HttpModule,
     ToastrModule.forRoot(),
     NgxPaginationModule,
     FilterPipeModule,
