@@ -27,11 +27,16 @@ import { LoginComponent } from './pages/entry/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard/dashboard.component';
 import { HomeComponent } from './pages/dashboard/home/home.component';
 import { SpinnerComponent } from './pages/shared/ui/spinner/spinner.component';
+import { RecoverPasswordComponent } from './pages/entry/recover-password/recover-password.component';
+import { HelperService } from './services/helper.service';
+import { AuthService } from './services/auth.service';
+import { ApiService } from './services/api.service';
 
 
 const routes = [
   {path: '' , redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
+  {path: 'recover-password', component: RecoverPasswordComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent}
@@ -46,7 +51,8 @@ const routes = [
     LoginComponent,
     DashboardComponent,
     HomeComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    RecoverPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +71,7 @@ const routes = [
     FilterPipeModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [{ provide: FirestoreSettingsToken, useValue: {} }],
+  providers: [{ provide: FirestoreSettingsToken, useValue: {} }, ApiService, AuthService, HelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

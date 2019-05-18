@@ -3,6 +3,8 @@ import {Router} from '@angular/router';
 import { FormGroup , Validators, FormBuilder} from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { ApiService } from 'src/app/services/api.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
   errMsg;
   user;
 
-  constructor(private router: Router, private fb: FormBuilder, private ngzone: NgZone, private auth: AuthService, private toastr: ToastrService) { }
+  constructor(private router: Router, private fb: FormBuilder, private ngzone: NgZone, private auth: AuthService, 
+    private toastr: ToastrService, private api: ApiService, private helper: HelperService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -36,10 +39,17 @@ export class LoginComponent implements OnInit {
   onSubmit(email,password){
     this.auth.login(email,password)
       .then(res => {
-        localStorage.setItem('rid',res.user.uid);
-        this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
-          location.reload();
-        })).then();
+        this.api.getUser(res.user.uid)
+          .subscribe((ress:any) =>{
+            if(ress){
+              localStorage.setItem('rid',res.user.uid);
+              localStorage.setItem('userType',ress.type);
+              this.helper.setUserType(ress.type)
+              this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
+                location.reload();
+              })).then();
+            }
+          })
       }, err =>{ 
         this.toastr.error(err.message, 'Login Error!');
       })
