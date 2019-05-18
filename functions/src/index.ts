@@ -2,16 +2,27 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 admin.initializeApp();
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-export const deleteUser = functions.https.onRequest((request, response) => {
-    const id = request.body.uid;
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+const router = express.Router();
+app.use(cors({origin: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.use('/', router);
+exports.deleteUser = functions.https.onRequest(app);
+
+router.route('/delete').post((req,res) => {
+    const id = req.body.uid;
     admin.auth().deleteUser(id)
         .then(function() {
-            response.json('ok')
+            res.json('ok')
         })
         .catch(function(error) {
-            response.json(error)
+            res.json(error)
         });
 });

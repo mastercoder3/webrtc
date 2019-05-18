@@ -42,7 +42,7 @@ export class HelperService {
     myHeaders.append('Content-Type', 'application/json');
     let options = new RequestOptions({ headers: myHeaders });
     //callrequest
-    return this.http.post('https://us-central1-systemdefense1.cloudfunctions.net/deleteUser',{
+    return this.http.post('https://us-central1-systemdefense1.cloudfunctions.net/deleteUser/delete/',{
       uid: id
     }, options);
   }
