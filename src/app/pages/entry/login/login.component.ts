@@ -22,6 +22,11 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService, private api: ApiService, private helper: HelperService) { }
 
   ngOnInit() {
+    if(localStorage.getItem('rid')){
+      this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
+        location.reload();
+      })).then();
+    }
     this.form = this.fb.group({
       email: ['', Validators.compose([
         Validators.required,

@@ -33,6 +33,7 @@ import { HelperService } from './services/helper.service';
 import { AuthService } from './services/auth.service';
 import { ApiService } from './services/api.service';
 import { UsersComponent } from './pages/dashboard/users/users.component';
+import { AuthGaurdService } from './services/auth-gaurd.service';
 
 
 const routes = [
@@ -43,7 +44,7 @@ const routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent},
     {path: 'users', component: UsersComponent}
-  ]}
+  ], canActivate: [AuthGaurdService]}
 ];
 
 @NgModule({
@@ -76,7 +77,7 @@ const routes = [
     FilterPipeModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [{ provide: FirestoreSettingsToken, useValue: {} }, ApiService, AuthService, HelperService],
+  providers: [{ provide: FirestoreSettingsToken, useValue: {} }, ApiService, AuthService, HelperService,AuthGaurdService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

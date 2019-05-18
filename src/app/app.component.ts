@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'admin-panel';
+  constructor(private router: Router, private ngzone: NgZone){
+    if(localStorage.getItem('rid'))
+    this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
+    })).then();
+  }
 }

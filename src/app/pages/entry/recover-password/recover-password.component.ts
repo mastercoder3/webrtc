@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {Router} from '@angular/router';
 import { FormGroup , Validators, FormBuilder} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -13,12 +13,13 @@ export class RecoverPasswordComponent implements OnInit {
 
   form: FormGroup;
   
-  constructor(private router: Router, private fb: FormBuilder, private auth: AuthService, private toast: ToastrService) { }
+  constructor(private router: Router, private fb: FormBuilder, private auth: AuthService, private toast: ToastrService, private ngzone: NgZone) { }
 
   ngOnInit() {
-    if(localStorage.getItem('rid'))
-    {
-      this.router.navigate(['/dashboard/home']);
+    if(localStorage.getItem('rid')){
+      this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
+        location.reload();
+      })).then();
     }
     
     this.form = this.fb.group({
