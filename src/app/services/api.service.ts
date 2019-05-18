@@ -12,4 +12,8 @@ export class ApiService {
   getUser(id){
     return this.afs.doc('users/'+id).valueChanges();
   }
+
+  getAllUsers(){
+    return this.afs.collection('users', ref => ref.where('type','==','user')).snapshotChanges();
+  }
 }

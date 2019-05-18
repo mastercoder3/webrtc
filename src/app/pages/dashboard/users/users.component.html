@@ -1,0 +1,79 @@
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-1">
+    <h3 class="content-header-title">Users</h3>
+  </div>
+  <div class="content-header-right breadcrumbs-right breadcrumbs-top col-md-6 col-12">
+    <div class="breadcrumb-wrapper col-12">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard/home">Dashboard</a>
+        </li>
+
+        <li class="breadcrumb-item">
+          <a>Users</a> </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="content-body">
+  <section class="basic-elements">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Users</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                      <label for="">Search User</label>
+                      <input type="text" class="form-control" [(ngModel)]="user.email" placeholder="User email..."
+                        style="max-width: 300px">
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                      <fieldset>
+                        <label for="enter">Add User:</label>
+                        <button style="margin-top: 5px;" class="btn btn-primary btn-block"
+                          (click)="addPizza(addpizzas)">Add</button>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <br>
+                  <br>
+                  <app-spinner *ngIf="showSpinner"></app-spinner>
+                  <div class="table-responsive" *ngIf="!showSpinner">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Email</th>
+                          <th>Address</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="let item of users | filterBy: user | paginate: { itemsPerPage: 10, currentPage: pageNumber }; let i = index">
+                          <th scope="row">{{i + 1}}</th>
+                          <td class="small">{{item?.email}}</td>
+                          <td class="small">{{item?.address}}</td>
+                          <td class="small">
+                            <a (click)="delete(item)">
+                              <!-- Delete -->
+                              Delete
+                              <i style="color: red" class="ft-trash-2"></i></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="pageNumber = $event" previousLabel="Previous" nextLabel="Next"
+                      responsive="true" autoHide="true" directionLinks="false"></pagination-controls>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

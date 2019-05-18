@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   setPersistance(){
-    return this.auth.auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    return this.auth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
   }
 
   forgotPassword(email){

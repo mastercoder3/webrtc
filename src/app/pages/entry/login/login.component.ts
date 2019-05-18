@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         this.api.getUser(res.user.uid)
           .subscribe((ress:any) =>{
             if(ress){
+              this.auth.setPersistance();
               localStorage.setItem('rid',res.user.uid);
               localStorage.setItem('userType',ress.type);
               this.helper.setUserType(ress.type)

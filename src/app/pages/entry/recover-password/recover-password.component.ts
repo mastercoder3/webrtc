@@ -16,10 +16,10 @@ export class RecoverPasswordComponent implements OnInit {
   constructor(private router: Router, private fb: FormBuilder, private auth: AuthService, private toast: ToastrService) { }
 
   ngOnInit() {
-    // if(localStorage.getItem('rid'))
-    // {
-    //   this.router.navigate(['/dashboard/home']);
-    // }
+    if(localStorage.getItem('rid'))
+    {
+      this.router.navigate(['/dashboard/home']);
+    }
     
     this.form = this.fb.group({
       email: ['', Validators.compose([

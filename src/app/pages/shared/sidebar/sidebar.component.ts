@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  type;
+
+  constructor(private helper: HelperService) { }
 
   ngOnInit() {
+    this.helper.getUserType().subscribe(res =>{
+      this.type = res;
+    });
   }
 
 }

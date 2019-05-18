@@ -31,6 +31,7 @@ import { RecoverPasswordComponent } from './pages/entry/recover-password/recover
 import { HelperService } from './services/helper.service';
 import { AuthService } from './services/auth.service';
 import { ApiService } from './services/api.service';
+import { UsersComponent } from './pages/dashboard/users/users.component';
 
 
 const routes = [
@@ -39,7 +40,8 @@ const routes = [
   {path: 'recover-password', component: RecoverPasswordComponent},
   {path: 'dashboard', component: DashboardComponent, children: [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
-    {path: 'home', component: HomeComponent}
+    {path: 'home', component: HomeComponent},
+    {path: 'users', component: UsersComponent}
   ]}
 ];
 
@@ -52,7 +54,8 @@ const routes = [
     DashboardComponent,
     HomeComponent,
     SpinnerComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
