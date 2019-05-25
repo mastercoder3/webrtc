@@ -1,0 +1,22 @@
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+#currentVideo{
+    min-height: 300px;
+    max-height: 350px;
+}
+
+#otherVideos{
+    overflow-y: scroll;
+}
+
+#otherVideos > video{
+    width: 50px !important;
+    height: 50px !important;
+}
+
+video {
+    pointer-events: none;
+}

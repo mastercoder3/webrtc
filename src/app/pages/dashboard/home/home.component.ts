@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WebrtcService } from 'src/app/services/webrtc.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private rtc: WebrtcService) { }
 
   ngOnInit() {
+    this.rtc.setFocus(false);
+  }
+
+  open(){
+    this.rtc.open('jd123123');
+  }
+
+  join(){
+    this.rtc.join('jd123123');
   }
 
 }

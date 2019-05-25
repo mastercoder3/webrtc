@@ -34,6 +34,7 @@ import { AuthService } from './services/auth.service';
 import { ApiService } from './services/api.service';
 import { UsersComponent } from './pages/dashboard/users/users.component';
 import { AuthGaurdService } from './services/auth-gaurd.service';
+import { WebrtcService } from './services/webrtc.service';
 
 
 const routes = [
@@ -77,7 +78,7 @@ const routes = [
     FilterPipeModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [{ provide: FirestoreSettingsToken, useValue: {} }, ApiService, AuthService, HelperService,AuthGaurdService],
+  providers: [{ provide: FirestoreSettingsToken, useValue: {} }, ApiService, AuthService, HelperService,AuthGaurdService, WebrtcService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
