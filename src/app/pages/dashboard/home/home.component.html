@@ -1,13 +1,68 @@
-<button id="btn-open-room" (click)="open()">Open Room</button>
-<button id="btn-join-room" (click)="join()">Join Room</button>
-<div #remote id="remote"></div>
-<div class="container">
+<div class="content-body" *ngIf="!ifCall">
+  <section class="basic-elements">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Start a Call</h4>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <app-spinner *ngIf="showSpinner"></app-spinner>
+               <div class="row" *ngIf="!showSpinner">
+                  <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                      <fieldset>
+                        <label for="enter">Choose Users:</label>
+                        <select class="form-control" [(ngModel)]="selectedUser">
+                          <option [value]="item.did" *ngFor="let item of users">{{item?.address}}</option>
+                        </select>
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                        <fieldset>
+                          <label for="enter">Add To Call:</label>
+                          <button style="margin-top: 5px;" class="btn btn-primary btn-block"
+                          (click)="addUser()">Add</button>
+                        </fieldset>
+                      </div>
+               </div>
+               <div class="row" *ngIf="callUsers.length !== 0">
+                  <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                      <fieldset>
+                        <label for="enter">Selected Users:</label>
+                        <ul>
+                            <li *ngFor="let item of callUsers">{{getUserName(item)}}</li>
+                          </ul>
+                      </fieldset>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                        <fieldset>
+                          <label for="enter">Start Call:</label>
+                          <button style="margin-top: 5px;" class="btn btn-primary btn-block"
+                          (click)="startCall()">Start</button>
+                        </fieldset>
+                      </div>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="container" *ngIf="ifCall">
   <div class="row">
     <div class="col-9 col-lg-9 col-md-7 col-sm-12 mb1" id="currentVideo">
 
     </div>
     <div class="col-3 col-lg-3 col-md-5 col-sm-12 mb1" id="otherVideos">
 
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <button class="btn btn-primary" (click)="endCall()" >End Call</button>
     </div>
   </div>
 </div>

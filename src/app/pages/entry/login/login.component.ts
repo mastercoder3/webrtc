@@ -50,10 +50,12 @@ export class LoginComponent implements OnInit {
               this.auth.setPersistance();
               localStorage.setItem('rid',res.user.uid);
               localStorage.setItem('userType',ress.type);
-              this.helper.setUserType(ress.type)
-              this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
-                location.reload();
-              })).then();
+              this.helper.setUserType(ress.type);
+              this.api.addUserCallStatus(res.user.uid,{status: 'online'}).then(res =>{
+                this.ngzone.run(() => this.router.navigate(['/dashboard/home']).then(res =>{
+                  location.reload();
+                })).then();
+              })
             }
           })
       }, err =>{ 
