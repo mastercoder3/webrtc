@@ -8,7 +8,7 @@
           </div>
           <div class="card-content">
             <div class="card-body">
-              <app-spinner *ngIf="showSpinner"></app-spinner>
+              <app-spinner *ngIf="showSpinner && !calling"></app-spinner>
                <div class="row" *ngIf="!showSpinner">
                   <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
                       <fieldset>
@@ -43,6 +43,20 @@
                         </fieldset>
                       </div>
                </div>
+               <!-- Call Div -->
+               <h5 *ngIf="calling">Incoming Call</h5>
+               <div class="row" *ngIf="calling">
+                  <div style="display: block; margin: 0 auto;">
+                      <img  src="/assets/calling.gif" style="width: 325px; height: 300px">
+                  </div>
+               </div>
+               <div class="row" *ngIf="calling">
+                  <div  style="display: block; margin: 0 auto;">
+                      <button class="btn btn-primary" (click)="acceptCall()" >Accept Call</button>
+                      &nbsp;&nbsp;
+                      <button class="btn btn-danger" (click)="rejectCall()">Reject Call</button>
+                    </div>
+               </div>
             </div>
           </div>
         </div>
@@ -52,14 +66,15 @@
 </div>
 
 <div class="container" *ngIf="ifCall">
-  <div class="row">
-    <div class="col-9 col-lg-9 col-md-7 col-sm-12 mb1" id="currentVideo">
+  <div class="row" style="height: 480px;">
+    <div class="col-8 col-lg-8 col-md-6 col-sm-12 mb1" id="currentVideo">
 
     </div>
-    <div class="col-3 col-lg-3 col-md-5 col-sm-12 mb1" id="otherVideos">
+    <div class="col-4 col-lg-3 col-md-6 col-sm-12 mb1" id="otherVideos">
 
     </div>
   </div>
+  <br>
   <div class="row">
     <div>
       <button class="btn btn-primary" (click)="endCall()" >End Call</button>

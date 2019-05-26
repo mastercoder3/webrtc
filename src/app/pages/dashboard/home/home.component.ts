@@ -3,6 +3,7 @@ import { WebrtcService } from 'src/app/services/webrtc.service';
 import { ApiService } from 'src/app/services/api.service';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import {Howl, Howler} from 'howler';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   rooms=[];
   public ifCall=false;
   processCount = 0;
+  calling = false;
+  sound;
 
   constructor(private rtc: WebrtcService, public api: ApiService, private toastr: ToastrService) { 
   }
@@ -60,16 +63,64 @@ export class HomeComponent implements OnInit, OnDestroy {
       })
   }
 
+  tempId;
+  caller;
+  isJoined;
+
   checkIfChanges(isJoined){
     let id = localStorage.getItem('rid');
     let x = this.rooms.filter(data => data.users.indexOf(id) > -1);
     if(x.length > 0){
       this.showSpinner = true;
-      setTimeout( () => {
-        this.showSpinner = false;
-        this.ifCall = true;
-        this.setRoomStatus(x,isJoined);
-      }, 3000);
+      this.calling = true;
+      this.sound = new Howl({
+        src: ['./assets/assets/audio/call.mp3'],
+        autoplay: true,
+        loop: true,
+        volume: 1
+      });
+      if(Date.now() - x[0].date <= 60000){
+        this.sound.play();
+        this.tempId = x[0];
+        this.caller = x;
+        this.isJoined = isJoined;
+        setTimeout(() =>{
+          if(this.calling){
+            this.rejectCall();
+          }
+        }, 10000);
+      }
+      else{
+        this.caller = x;
+        this.acceptCall();
+      }
+      
+    }
+  }
+
+  acceptCall(){
+    this.sound.stop();
+    this.calling = false;
+    this.showSpinner = false;
+    this.ifCall = true;
+    this.setRoomStatus(this.caller,this.isJoined);
+  }
+
+  rejectCall(){
+    this.sound.stop();
+    let y = this.tempId.users.findIndex(data => data.indexOf(localStorage.getItem('rid')) >-1 );
+    if(y>-1){
+      let id = this.tempId.did;
+      delete this.tempId['did'];
+      this.tempId.users.splice(y,1);
+      this.api.updateRoom(id,this.tempId)
+        .then(res =>{
+          this.ifCall = false;
+          this.calling = false;
+          this.showSpinner = false;
+        }, err =>{
+          console.log(err)
+        });
     }
   }
 
@@ -79,20 +130,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.processCount = 0;
     let date = Date.now();
     // 900000
-    if((date - x[0].date >= 60000) && (isJoined === false) )
-    {
+    // if((date - x[0].date >= 60000) && (isJoined === false) )
+    // {
       connection.checkPresence(x[0].roomId, function(isRoomEists, roomid) {
         if(isRoomEists) {
           localStorage.setItem('callId',x[0].did);
           isJoined = true;
           connection.join(roomid);
-          // console.log(connection.getAllParticipants().length);
-          // if(connection.getAllParticipants().length === 0){
-          //   connection.getAllParticipants().forEach(function(participantId) {
-          //     connection.disconnectWith(participantId);
-          //   });
-          //   checker = true;
-          // }
         }
         else {
           isJoined = false;
@@ -100,6 +144,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       });
     let processInterval = setInterval( () =>{
+      console.log('comingggggggggggggg');
       if(checker === false && this.processCount < 5){
         this.processCount++;
       }
@@ -116,26 +161,29 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       }
     }, 5000);
-    }
-    else{
-      isJoined = true;
-      localStorage.setItem('callId',x[0].did);
-      this.rtc.join(x[0].roomId);
-    }
+    // }
+    // else{
+    //   isJoined = true;
+    //   localStorage.setItem('callId',x[0].did);
+    //   connection.checkPresence(x[0].roomId, function(isRoomEists, roomid) {
+    //     if(isRoomEists) {
+    //       localStorage.setItem('callId',x[0].did);
+    //       isJoined = true;
+    //       connection.join(roomid);
+    //     }
+    //     else {
+    //       isJoined = false;
+    //       checker = true;
+    //     }
+    //   });
+    //   // this.rtc.join(x[0].roomId);
+    // }
 
-  }
-
-  open(){
-    this.rtc.open('jd123123');
-  }
-
-  join(){
-    this.api.updateUserCallStatus(this.status.did,{status: 'oncall'});
-    this.rtc.join('jd123123');
   }
 
   ngOnDestroy(){
     // this.api.addUserCallStatus({status: 'junaid Offline'});
+    this.endCall();
   }
 
   addUser(){
@@ -188,14 +236,23 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   endCall(){
-    const connnection = this.rtc.getConnection();
-    connnection.getAllParticipants().forEach(function(participantId) {
-      connnection.disconnectWith(participantId);
-    });
+    var myNode = document.getElementById("otherVideos");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+
+    var myNode = document.getElementById("currentVideo");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
     this.ifCall = false;
     if(localStorage.getItem('myRoom'))
         this.api.deleteRooms(localStorage.getItem('myRoom'))  
         .then(res =>{
+          const connnection = this.rtc.getConnection();
+          connnection.getAllParticipants().forEach(function(participantId) {
+            connnection.disconnectWith(participantId);
+          });
           localStorage.removeItem('myRoom');
         });
     else{
@@ -208,6 +265,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           delete x[0]['did'];
           this.api.updateRoom(id,x[0])
             .then(res =>{
+              const connnection = this.rtc.getConnection();
+              connnection.getAllParticipants().forEach(function(participantId) {
+                connnection.disconnectWith(participantId);
+              });
               localStorage.removeItem('callId');
               location.reload();
             });

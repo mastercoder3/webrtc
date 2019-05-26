@@ -46,8 +46,6 @@ export class WebrtcService {
   };
   var count = 0;
   this.connection.onUserStatusChanged = function(status) {
-    let focus = document.getElementById('currentVideo');
-    let myVideo = document.getElementById('otherVideos');
     if(status.status === 'offline'){
       let x = users.findIndex(data => data === status.userid );
       if(x > -1){
@@ -56,8 +54,9 @@ export class WebrtcService {
           con.getAllParticipants().forEach(function(participantId) {
             con.disconnectWith(participantId);
           });
-          if(confirm(`All Users Disconnected. System is Ending call.`))
+          if(confirm(`All Users Disconnected. System is Ending call.`)){
             location.reload();
+          }  
           else
             location.reload();
         }
@@ -108,24 +107,13 @@ export class WebrtcService {
 
 
       if (event.type === 'local') {
-        // let id = event.mediaElement.id;
-
-        // let myVideo = document.getElementById('otherVideos');
-        // myVideo.appendChild( event.mediaElement );
-        // let addStyle = document.getElementById(id);
-        // addStyle.style.pointerEvents = "none";
-        // addStyle.style.width = "250px";
-        // addStyle.style.height = "250px";
-        // addStyle.addEventListener('click', function(eventt){
-        //   if(focus.childNodes.length > 0){
-        //     let myVideo = document.getElementById('currentVideo');
-        //     let replace = myVideo.getElementsByTagName('video')[0];
-        //     myVideo.removeChild(myVideo.getElementsByTagName('video')[0]);
-        //     myVideo.appendChild( addStyle );
-
-        //   }
-        // });
-        addToSide(event.mediaElement)
+        addToSide(event.mediaElement);
+        setTimeout( ()=>{
+          if(users.length === 1){
+            alert('No One Answered The Call. Please Call Later');
+            location.reload();
+          }
+        }, 15000); 
       }
       else if (event.type === 'remote' && focus.childNodes.length === 0) {
         users.push(event.userid);
@@ -135,20 +123,10 @@ export class WebrtcService {
         this.focusVideo = true;
         let addStyle = document.getElementById(id);
         addStyle.removeAttribute("controls");
+        addStyle.style.width = "680px";
+        addStyle.style.height = "480px";
       }
       else if (event.type === 'remote' && focus.childNodes.length > 0) {
-        // let id = event.mediaElement.id;
-
-        // let myVideo = document.getElementById('otherVideos');
-        // myVideo.appendChild( event.mediaElement );
-        // let addStyle = document.getElementById(id);
-        // // addStyle.style.pointerEvents = "none";
-        // addStyle.style.width = "250px";
-        // addStyle.style.height = "250px";
-        // addStyle.removeAttribute("controls");
-        // addStyle.addEventListener('click', function(eventt){
-
-        // });
         addToSide(event.mediaElement)
       }
 
