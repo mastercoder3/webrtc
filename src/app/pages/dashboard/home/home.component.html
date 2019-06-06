@@ -8,6 +8,7 @@
           </div>
           <div class="card-content">
             <div class="card-body">
+              <div *ngIf="!calling">
               <app-spinner *ngIf="showSpinner && !calling"></app-spinner>
                <div class="row" *ngIf="!showSpinner">
                   <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
@@ -43,6 +44,7 @@
                         </fieldset>
                       </div>
                </div>
+              </div>
                <!-- Call Div -->
                <h5 *ngIf="calling">Incoming Call</h5>
                <div class="row" *ngIf="calling">
@@ -70,7 +72,7 @@
     <div class="col-8 col-lg-8 col-md-6 col-sm-12 mb1" id="currentVideo">
 
     </div>
-    <div class="col-4 col-lg-3 col-md-6 col-sm-12 mb1" id="otherVideos">
+    <div class="col-4 col-lg-3 col-md-6 col-sm-12 mb1" id="otherVideos" style="position: relative; right: -60px;" >
 
     </div>
   </div>
